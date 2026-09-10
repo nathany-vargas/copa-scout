@@ -1,0 +1,151 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "title": "Zonas de Perda de Bola",
+  "width": 400,
+  "height": 600,
+  "padding": 5,
+  "autosize": "none",
+  "data": [
+    {
+      "name": "events",
+      "url": {
+        "%context%": true,
+        "index": "counterfactual_events",
+        "body": {
+          "size": 5000,
+          "_source": ["event_x", "event_y", "outcome"]
+        }
+      },
+      "format": {"property": "hits.hits"},
+      "transform": [
+        {"type": "formula", "as": "px", "expr": "datum._source.event_y"},
+        {"type": "formula", "as": "py", "expr": "120 - datum._source.event_x"},
+        {"type": "filter", "expr": "datum.px != null && datum.py != null"}
+      ]
+    },
+    {
+      "name": "grid",
+      "source": "events",
+      "transform": [
+        {"type": "formula", "as": "gx", "expr": "min(floor(datum.px / 10) * 10, 70)"},
+        {"type": "formula", "as": "gy", "expr": "min(floor(datum.py / 10) * 10, 110)"},
+        {
+          "type": "aggregate",
+          "groupby": ["gx", "gy"],
+          "ops": ["count"],
+          "fields": [null],
+          "as": ["cnt"]
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {"name": "x", "type": "linear", "domain": [0, 80], "range": "width"},
+    {"name": "y", "type": "linear", "domain": [0, 120], "range": [0, {"signal": "height"}]},
+    {
+      "name": "heat",
+      "type": "linear",
+      "domain": {"data": "grid", "field": "cnt"},
+      "range": ["rgba(26,71,42,0)", "#ffff00", "#ff6600", "#ff0000"]
+    }
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"value": 0}, "y": {"value": 0},
+          "width": {"signal": "width"}, "height": {"signal": "height"},
+          "fill": {"value": "#1a472a"}
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "from": {"data": "grid"},
+      "encode": {
+        "enter": {
+          "x": {"scale": "x", "field": "gx"},
+          "y": {"scale": "y", "field": "gy"},
+          "width": {"signal": "width / 8"},
+          "height": {"signal": "height / 12"},
+          "fill": {"scale": "heat", "field": "cnt"},
+          "opacity": {"value": 0.75},
+          "cornerRadius": {"value": 3},
+          "tooltip": {"signal": "{'Zona': datum.gx + ',' + datum.gy, 'Eventos': datum.cnt}"}
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"scale": "x", "value": 0}, "y": {"scale": "y", "value": 0},
+          "x2": {"scale": "x", "value": 80}, "y2": {"scale": "y", "value": 120},
+          "stroke": {"value": "white"}, "strokeWidth": {"value": 2}, "fill": {"value": "transparent"}
+        }
+      }
+    },
+    {
+      "type": "rule",
+      "encode": {
+        "enter": {
+          "x": {"scale": "x", "value": 0}, "y": {"scale": "y", "value": 60},
+          "x2": {"scale": "x", "value": 80}, "y2": {"scale": "y", "value": 60},
+          "stroke": {"value": "white"}, "strokeWidth": {"value": 1.5}
+        }
+      }
+    },
+    {
+      "type": "arc",
+      "encode": {
+        "enter": {
+          "x": {"scale": "x", "value": 40}, "y": {"scale": "y", "value": 60},
+          "startAngle": {"value": 0}, "endAngle": {"value": 6.283},
+          "outerRadius": {"value": 45},
+          "stroke": {"value": "white"}, "strokeWidth": {"value": 1.5}, "fill": {"value": "transparent"}
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"scale": "x", "value": 18}, "y": {"scale": "y", "value": 0},
+          "x2": {"scale": "x", "value": 62}, "y2": {"scale": "y", "value": 18},
+          "stroke": {"value": "white"}, "strokeWidth": {"value": 1.5}, "fill": {"value": "transparent"}
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"scale": "x", "value": 18}, "y": {"scale": "y", "value": 102},
+          "x2": {"scale": "x", "value": 62}, "y2": {"scale": "y", "value": 120},
+          "stroke": {"value": "white"}, "strokeWidth": {"value": 1.5}, "fill": {"value": "transparent"}
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"scale": "x", "value": 30}, "y": {"scale": "y", "value": 0},
+          "x2": {"scale": "x", "value": 50}, "y2": {"scale": "y", "value": 6},
+          "stroke": {"value": "white"}, "strokeWidth": {"value": 1.5}, "fill": {"value": "transparent"}
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"scale": "x", "value": 30}, "y": {"scale": "y", "value": 114},
+          "x2": {"scale": "x", "value": 50}, "y2": {"scale": "y", "value": 120},
+          "stroke": {"value": "white"}, "strokeWidth": {"value": 1.5}, "fill": {"value": "transparent"}
+        }
+      }
+    }
+  ]
+}
