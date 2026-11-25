@@ -1,6 +1,0 @@
-statsbombpy
-pandas
-pyarrow
-elasticsearch
-requests
-python-dotenv

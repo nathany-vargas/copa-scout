@@ -1,5 +1,0 @@
-__pycache__/
-*.pyc
-
-# Cache de eventos StatsBomb (~418 MB, regenerável com `python 1_extract.py`)
-cache/
