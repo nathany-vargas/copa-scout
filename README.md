@@ -1,16 +1,42 @@
-# Copa Scout
+# Copa Scout | Underdog Scout
 
-Análise tática das Copas do Mundo de 2018 e 2022 com Python, Elasticsearch e Elastic Agent Builder. A pergunta que guia o projeto é: **“o que teria acontecido se...?”**
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![Elastic](https://img.shields.io/badge/Elastic-005571?logo=elastic&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 
-O Copa Scout nasceu na **primeira participação da nossa equipe em uma hackathon**, em 29 de maio de 2026. Em cerca de **4 horas**, dividimos o trabalho entre o código do pipeline, o ambiente Elastic e uma interface para apresentar as análises. O resultado ficou abaixo do que esperávamos, mas a experiência trouxe muito aprendizado sobre dados, colaboração e desenvolvimento sob pressão de tempo.
+**Inteligência esportiva, análise de dados e IA — Portfólio de Nathany Vargas**
 
-No dia seguinte, decidi retomar o projeto sozinho e me dei **mais 4 horas**, simulando uma nova participação no mesmo desafio. Reaproveitei o trabalho da equipe e concentrei a revisão na integração com o Kibana. Este repositório preserva as duas etapas e registra aprendizados que eu levaria adiante, inclusive para minha atuação e para o resultado posterior no Desafio Quant AI 2026.
+## Sobre o projeto
+
+Durante a Hack Night Rio — Copa do Mundo Edition, em 29 de maio de 2026, na ESPM Rio, idealizei a proposta **Underdog Scout: o DNA da zebra na Copa 2026**. A questão central era compreender como seleções menos favoritas conseguem resistir a adversários mais fortes.
+
+Como graduanda em Sistemas de Informação pela UFF, participei da concepção da solução e da construção colaborativa da interface. Em cerca de quatro horas, a equipe integrou dados esportivos, Python, Elasticsearch, Elastic Agent Builder e Streamlit.
+
+## Minhas contribuições
+
+- Idealização da proposta e definição da problemática.
+- Concepção inicial do Índice de Sobrevivência.
+- Seleção das campanhas de Marrocos, Japão e Arábia Saudita em 2022 como referências.
+- Desenvolvimento colaborativo da interface Streamlit com Alexandre Braga.
+- Apresentação visual dos resultados e colaboração na entrega coletiva.
+
+Este fork preserva a entrega coletiva e a revisão posterior, realizada individualmente por [jotave-br](https://github.com/jotave-br). A revisão não é de minha autoria.
+
+[Repositório original](https://github.com/jotave-br/copa-scout)
+
+## Arquitetura pretendida na hackathon
+
+```mermaid
+flowchart LR
+ A[StatsBomb] --> B[Pipeline Python]
+ B --> C[Elasticsearch]
+ C --> D[Elastic Agent Builder]
+ D --> E[Streamlit]
+```
 
 O deployment de demonstração era um trial e expirou. Ficaram o código, os dados processados e duas especificações Vega recuperadas. Não há demonstração online ativa nem um export completo do dashboard.
 
 Quem tiver interesse em explorar a implementação pode configurar um novo ambiente no Elastic Cloud com Kibana e Agent Builder, inclusive usando um [trial, conforme as condições da Elastic](https://www.elastic.co/cloud/cloud-trial-overview). O caminho é preencher as URLs e a chave de API no `.env` da versão de revisão, executar o pipeline para carregar os dados e, por último, rodar `4_agent_setup.py` para cadastrar as ferramentas de consulta e configurar o agente `copa-scout`. O ambiente também precisa ter um modelo de linguagem disponível para o Agent Builder. As duas especificações Vega são carregadas separadamente no Kibana, conforme o [guia de execução](copa_scout_review/README.md) e o [guia do dashboard](copa_scout_review/dashboard/README.md).
 
-Esses arquivos permitem reconstruir as duas visualizações personalizadas e investigar como os dados alimentam as análises. Para remontar o dashboard completo, os outros três painéis precisam ser criados manualmente a partir da configuração documentada. Não refiz o ambiente após o fim do trial, então esse processo pode exigir ajustes de compatibilidade; preservei o material para que a implementação possa ser estudada e reconstruída por quem tiver interesse.
+Esses arquivos permitem reconstruir as duas visualizações personalizadas e investigar como os dados alimentam as análises. Para remontar o dashboard completo, os outros três painéis precisam ser criados manualmente a partir da configuração documentada. O autor da revisão não refez o ambiente após o fim do trial, então esse processo pode exigir ajustes de compatibilidade; preservei o material para que a implementação possa ser estudada e reconstruída por quem tiver interesse.
 
 ## Duas versões, um aprendizado
 
@@ -23,37 +49,20 @@ Esses arquivos permitem reconstruir as duas visualizações personalizadas e inv
 | Arquitetura pretendida | Pipeline → Elastic → agent → Streamlit | Pipeline → Elastic → agent e dashboard no Kibana |
 | Resultado | Dados integrados e UI básica; apresentação pouco alinhada ao uso esperado do Kibana | Agent, análise contrafactual e dashboard concentrados no Kibana |
 
-### O dia da hackathon
+### A hackathon
 
-Nossa primeira hackathon foi o **Hack Night Rio — Copa do Mundo Edition**, na ESPM Rio. O evento foi organizado pela Elastic Community Rio de Janeiro, com ACE Laboratory e ESPM Rio, e exigia o uso do Elastic Agent Builder e dos dados da StatsBomb. [Repositório do evento](https://github.com/salgado/hacknight-copa-2026).
+O evento foi organizado pela Elastic Community Rio de Janeiro, com ACE Laboratory e ESPM Rio. [Repositório do evento](https://github.com/salgado/hacknight-copa-2026).
 
-A ideia inicial, **“Underdog Scout: o DNA da zebra na Copa 2026”**, nasceu de uma proposta da nossa colega de equipe **Nathany Vargas**. Ela trouxe o olhar para as “zebras” do futebol e a ideia de um Índice de Sobrevivência para investigar como seleções menos favoritas conseguem resistir a adversários mais fortes, tomando como referência as campanhas de Marrocos, Japão e Arábia Saudita na Copa de 2022.
+- **Nathany Vargas:** idealização, concepção inicial do indicador e interface Streamlit.
+- **Alexandre Braga:** desenvolvimento colaborativo da interface.
+- **João Gabriel de Oliveira:** ambiente Elastic e ajustes no Agent Builder.
+- **jotave-br:** pipeline Python, métricas e integração.
 
-O resultado da primeira versão foi um trabalho em equipe, com responsabilidades divididas:
+O escopo cresceu para 128 partidas das Copas de 2018 e 2022. A interface externa ficou básica e a equipe identificou que a avaliação esperava a apresentação dentro do Kibana. O frontend Streamlit não está entre os arquivos recuperados. A versão original preserva problemas conhecidos de configuração e contagem de disputas de pênaltis.
 
-- **Eu:** todo o código do dia — preparação dos eventos, cálculo das métricas, carga no Elasticsearch e os scripts que cadastram as tools e o agent pela API do Kibana.
-- **João Gabriel de Oliveira:** o ambiente Elastic. Criou o deployment, gerou as credenciais que o código usava e ajustou, na interface do Agent Builder, como o agent utilizava esses dados. Esses ajustes não ficaram registrados no código.
-- **Nathany Vargas e Alexandre Braga:** apresentação dos resultados por meio de uma interface de usuário em Streamlit.
+### Revisão posterior
 
-O escopo cresceu de alguns casos de 2022 para todas as 128 partidas das Copas de 2018 e 2022. Era nossa primeira experiência tentando transformar uma ideia em uma entrega demonstrável em tão pouco tempo.
-
-Ao final da hackathon, entendemos que a expectativa da avaliação era ver essa representação dos dados dentro do Kibana, explorando os recursos da plataforma. Havíamos dedicado parte importante do esforço a uma interface externa e, na nossa avaliação, essa escolha nos custou muitos pontos.
-
-O tempo também limitou o acabamento: a UI ficou bastante básica. Ainda assim, na nossa opinião, ela apresentava os resultados de forma visualmente mais interessante do que conseguíamos obter com os recursos do Kibana que conhecíamos naquele momento. Essa preferência visual não compensou o desalinhamento com a entrega esperada. O primeiro resultado foi ruim, mas aprendemos muito sobre a importância de entender os critérios do desafio e orientar o trabalho da equipe por eles.
-
-A pasta original preserva o código recuperado, com as credenciais substituídas por `chavinha_expirada`. Ela contém o pipeline Python e seus dados; **o frontend Streamlit não está entre os arquivos recuperados**. Ajustes feitos diretamente no Kibana também não estão todos representados no código.
-
-Ficaram problemas conhecidos nessa versão: `config.py` é uma cópia de `4_agent_setup.py`, a configuração inicial de tools usa um objeto em vez da lista adotada no `fix_agent.py`, e as contagens incluem a disputa de pênaltis. Esses arquivos foram mantidos como registro do evento.
-
-### O dia seguinte
-
-No dia seguinte, decidi fazer uma nova tentativa por conta própria. Reservei mais 4 horas, como se estivesse novamente na hackathon, para testar o que conseguiria melhorar com o aprendizado do dia anterior. Usei um deployment próprio no Elastic Cloud Serverless e mantive o trabalho com dados como ponto de partida.
-
-Meu foco passou a ser integrar toda a experiência ao Kibana: o agent, as consultas e a apresentação das análises. Considerei o resultado dessa segunda tentativa um avanço importante, tanto na entrega quanto no meu entendimento da plataforma. Eu ainda achava limitadas as opções de gráficos e dashboards que havia explorado, mas procurei trabalhar essa questão dentro do ambiente proposto pelo desafio.
-
-As especificações **Vega e Vega-Lite foram criadas somente na revisão solo**. Eu não tinha experiência prévia com essas linguagens e usei o **Claude Opus disponível na época** como apoio para construir gráficos mais bonitos, legíveis e visualmente limpos. O uso de modelos de linguagem (LLMs) era incentivado no evento, considerando o tempo curto de desenvolvimento. Na revisão, esse apoio me permitiu experimentar uma tecnologia com a qual eu ainda não tinha tido contato.
-
-As decisões foram buscar situações parecidas na base, medir o que aconteceu depois delas e apresentar os números como **frequências condicionais**, com linguagem cautelosa. Mantive somente partidas de seleções das duas Copas, sem misturar competições de clubes, e reaproveitei o pipeline para acrescentar a análise contrafactual e o dashboard.
+No dia seguinte, jotave-br retomou individualmente o projeto por mais quatro horas, concentrando a integração no Kibana e acrescentando análises contrafactuais e visualizações Vega e Vega-Lite, com apoio do Claude Opus. A documentação técnica a seguir descreve essa revisão, cuja autoria permanece preservada.
 
 ## O que está preservado
 
@@ -93,7 +102,7 @@ StatsBomb → cache local → métricas e CSVs → Elasticsearch
 
 ### Análise contrafactual
 
-Este foi nosso primeiro contato, ainda básico e exploratório, com perguntas contrafactuais: tentar compreender o que poderia ter acontecido se um evento tivesse sido diferente. Na revisão solo, dei mais espaço a essa ideia. A implementação usa frequências observadas em situações semelhantes como referência para discutir possibilidades; não estima, por si só, o efeito causal de mudar uma jogada.
+Este foi nosso primeiro contato, ainda básico e exploratório, com perguntas contrafactuais: tentar compreender o que poderia ter acontecido se um evento tivesse sido diferente. Na revisão individual, o autor ampliou essa ideia. A implementação usa frequências observadas em situações semelhantes como referência para discutir possibilidades; não estima, por si só, o efeito causal de mudar uma jogada.
 
 O [`7_contrafactual.py`](copa_scout_review/7_contrafactual.py) registra perdas (`Dispossessed`, `Miscontrol`, `Error`) e recuperações (`Ball Recovery`, `Interception`). Cada evento recebe uma zona pela coordenada x da StatsBomb:
 
@@ -202,22 +211,30 @@ Os testes locais cobrem esses cálculos; não substituem a validação da integr
 - O heatmap recuperado mistura perdas e recuperações e busca até 5.000 documentos. A dispersão fixa a Copa 2022 e não incorpora o contexto dos controles do dashboard.
 - Não há ambiente ativo para validar novamente as APIs, a importação das specs ou o comportamento dos controles.
 
-## O que aprendi e levei adiante
+## Aprendizados e competências
 
-Foi a primeira hackathon de todos nós. Apesar do resultado inicial abaixo do esperado, aprendemos muito ao dividir responsabilidades, integrar as partes do projeto e tentar apresentar uma solução em poucas horas. Para mim, a revisão do dia seguinte foi uma forma de transformar essa experiência em prática imediatamente: ajustar o foco, explorar melhor o Kibana e conferir com mais cuidado o que os dados realmente sustentavam.
+A experiência envolveu concepção de produtos orientados a dados, formulação de problemas, definição de indicadores, visualização de informações, desenvolvimento colaborativo de interfaces e trabalho sob restrições de tempo. O projeto evidencia a importância de alinhar requisitos, critérios de avaliação e apresentação dos resultados.
 
-O trabalho com eventos de partidas também me ajudou a desenvolver mais atenção à qualidade dos dados e à ordem temporal das informações. A contagem dos pênaltis, a sequência das jogadas e a diferença entre uma métrica calculada e sua interpretação mostraram como detalhes do tratamento podem mudar uma conclusão. Esse primeiro contato com perguntas contrafactuais foi simples, mas me ajudou a formular perguntas melhores e a separar o que observei nos dados daquilo que só posso apresentar como hipótese.
+## Possibilidades de evolução
 
-**Eu levei esses aprendizados para os projetos seguintes, inclusive para minha atuação no Desafio Quant AI 2026.** O resultado que obtivemos lá também foi fruto do que aprendi nesta primeira hackathon. Essa experiência contribuiu para a forma como passei a tratar dados, validar análises e lidar com o risco de *look-ahead bias*: usar, em uma análise ou decisão situada em determinado instante, informações que só estariam disponíveis no futuro.
+- Reconstrução da interface Streamlit.
+- Validação estatística dos pesos do indicador.
+- Ampliação da base esportiva e exploração de padrões táticos.
+- Aprimoramento da experiência de visualização.
 
-No Copa Scout, observar os 30 segundos posteriores a uma perda de bola serve para registrar seu desfecho histórico. O cuidado, ao construir uma análise preditiva, é não usar esse desfecho como informação de entrada para uma decisão que deveria ocorrer no instante da perda. Essa distinção entre o que era conhecido naquele momento e o que aconteceu depois foi um aprendizado que levei comigo; este projeto permanece uma exploração retrospectiva, sem um protocolo de validação preditiva temporal.
+São propostas futuras, não funcionalidades implementadas.
 
-A experiência também me ensinou a alinhar a apresentação aos critérios do desafio, conferir respostas de um agent contra os dados e reservar tempo para preservar a entrega. Manter credenciais fora do código e exportar os saved objects do Kibana antes do fim do trial passaram a fazer parte dessa preocupação.
+## Créditos e referências
 
-## Créditos
+- [Repositório original e revisão individual — jotave-br](https://github.com/jotave-br/copa-scout).
+- Equipe original: Nathany Vargas, Alexandre Braga, João Gabriel de Oliveira e jotave-br.
+- [StatsBomb Open Data](https://github.com/statsbomb/open-data).
+- [Hack Night Rio](https://github.com/salgado/hacknight-copa-2026).
+- [Elastic](https://www.elastic.co/) e [Streamlit](https://streamlit.io/).
+- Apoio de LLMs no pipeline e revisão: Claude (Anthropic), conforme documentação original.
 
-- Dados: [StatsBomb Open Data](https://github.com/statsbomb/open-data).
-- Evento: [Hack Night Rio — Copa do Mundo Edition](https://github.com/salgado/hacknight-copa-2026).
-- Equipe da primeira hackathon: eu, no código do pipeline e da integração; João Gabriel, no ambiente Elastic e nos ajustes do agent no Agent Builder; Nathany e Alexandre, na interface de apresentação.
-- Revisão no dia seguinte: trabalho individual, desenvolvido a partir da primeira versão da equipe.
-- Apoio de LLMs: usei o Claude (Anthropic) no desenvolvimento e na revisão de código. As especificações Vega e Vega-Lite da revisão solo foram feitas com apoio do Claude Opus disponível na época, durante meu primeiro contato com essas linguagens.
+## Sobre mim
+
+**Nathany Vargas** — graduanda em Sistemas de Informação pela UFF, com interesse em inteligência artificial, análise de dados e desenvolvimento tecnológico.
+
+[Meu perfil no GitHub](https://github.com/nathany-vargas)
