@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![Elastic](https://img.shields.io/badge/Elastic-005571?logo=elastic&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 
-**Inteligência esportiva, análise de dados e IA — Portfólio de Nathany Vargas**
+**Inteligência esportiva, análise de dados e IA**
 
 ## Sobre o projeto
 
